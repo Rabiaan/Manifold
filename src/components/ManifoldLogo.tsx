@@ -32,10 +32,16 @@ export const ManifoldLogo: React.FC<ManifoldLogoProps> = ({
           className="shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
         />
 
-        <span
-          className={`font-['Syne'] font-extrabold tracking-[-0.04em] lowercase ${textSize} ${textColor}`}
-        >
-          manifold
+        <span className="flex flex-col leading-none">
+          <span
+            className={`font-['Syne'] font-extrabold tracking-[-0.04em] lowercase ${textSize} ${textColor}`}
+          >
+            manifold
+          </span>
+
+          <span className="mt-1.5 font-mono text-[10px] tracking-[0.18em] uppercase text-neutral-400">
+            marketing &amp; media
+          </span>
         </span>
       </div>
     );
