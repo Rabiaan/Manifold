@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('home')}
               className="text-left group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FCD6E]"
             >
-              <ManifoldLogo theme="light" size="md" variant="full" />
+              <ManifoldLogo theme="light" size="md" />
             </button>
             <p className="font-headline font-bold text-lg text-[#0D0D0D]">
               Imagination, in motion.

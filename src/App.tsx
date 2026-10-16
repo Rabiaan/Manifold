@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PageId, ServiceOption, VisualStudy } from './types';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { LightboxModal } from './components/LightboxModal';
 import { ShowreelModal } from './components/ShowreelModal';
 import { StudioCursor } from './components/StudioCursor';
+import { LoadingScreen } from './components/LoadingScreen';
 
 import { HomePage } from './pages/HomePage';
 import { FilmPage } from './pages/FilmPage';
@@ -25,6 +26,9 @@ export default function App() {
   const [selectedContactService, setSelectedContactService] = useState<ServiceOption | undefined>();
   const [activeLightboxStudy, setActiveLightboxStudy] = useState<VisualStudy | null>(null);
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const handleLoadingComplete = useCallback(() => setIsLoading(false), []);
 
   // Sync with URL hash / search params on initial mount
   useEffect(() => {
@@ -87,6 +91,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0D0D0D] text-white selection:bg-[#1FCD6E] selection:text-[#0D0D0D]">
+      {/* Cinematic loading screen — wipes upward at 100% */}
+      {isLoading && (
+        <LoadingScreen onComplete={handleLoadingComplete} minDuration={2400} />
+      )}
+
       {/* Studio Magnetic Cursor for Desktop */}
       <StudioCursor />
 

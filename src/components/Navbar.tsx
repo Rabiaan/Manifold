@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FCD6E] rounded-sm py-1 cursor-pointer"
             aria-label="Manifold Home"
           >
-            <ManifoldLogo size="md" theme="dark" variant="emblem" />
+            <ManifoldLogo size="lg" theme="dark" />
           </button>
 
           {/* Zone 2: Clean single-line text navigation links */}
