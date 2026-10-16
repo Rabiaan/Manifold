@@ -1,0 +1,14 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Large / duplicate source imagery that is not shipped in the app
+src/assets/pilot-originals/
+src/assets/brand-imagery/*-640.webp
+src/assets/brand-imagery/*-960.webp
+src/assets/brand-imagery/*.png

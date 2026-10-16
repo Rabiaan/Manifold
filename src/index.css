@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Self-hosted brand fonts (src/assets/fonts)
+   - Syne        -> display / headlines
+   - DM Sans     -> body, nav & form controls
+   - Space Mono  -> mono labels, kickers & captions
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Syne';
+  src: url('./assets/fonts/Syne-Variable.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('./assets/fonts/DMSans-Variable.ttf') format('truetype');
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('./assets/fonts/SpaceMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('./assets/fonts/SpaceMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --color-emerald-accent: #1FCD6E;
+  --color-charcoal-card: #2B2B2B;
+  --color-ink-dark: #0D0D0D;
+  --color-paper-light: #F2F1EB;
+}
+
+/* Base Typographic Hierarchy from PDF Page 4 */
+html, body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0D0D0D;
+  color: #FFFFFF;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headlines: Syne 700-800 bold display typography */
+h1, h2, h3, h4, h5, h6, .font-headline, .font-display {
+  font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* Labels & Editorial Kickers: Space Mono 400-700 */
+.font-editorial, .font-mono, [data-mono="true"] {
+  font-family: 'Space Mono', monospace !important;
+}
+
+/* Body Prose, Navigation, and Form Controls: DM Sans 400-700 */
+.font-sans, p, input, textarea, button, select {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Custom focus rings for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #1FCD6E;
+  outline-offset: 2px;
+}
+
+/* Subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+::-webkit-scrollbar-thumb {
+  background: #2B2B2B;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1FCD6E;
+}

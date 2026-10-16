@@ -1,0 +1,6 @@
+{
+  "name": "Manifold — Film, Creative & AI Production Studio",
+  "description": "A film production house, creative agency and AI production studio, bringing bold ideas to life through story and visual craft.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
