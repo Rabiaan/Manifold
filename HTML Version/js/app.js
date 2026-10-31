@@ -73,6 +73,24 @@
     gsap.set(words, { yPercent: 115, opacity: 0 });
   }
 
+  function prepareHeroEntrance(scope) {
+    if (!scope || typeof gsap === 'undefined' || reduceMotion()) return;
+
+    const kicker = scope.querySelector('.gsap-hero-kicker');
+    const headline = scope.querySelector('.gsap-hero-headline');
+    const description = scope.querySelector('.gsap-hero-description');
+    const actions = scope.querySelector('.gsap-hero-actions');
+    const imageFrame = scope.querySelector('.gsap-hero-image');
+    const headlineWords = splitWords(headline);
+
+    if (kicker) gsap.set(kicker, { opacity: 0, y: 15, letterSpacing: '0.25em' });
+    hideWords(headlineWords);
+    if (!headlineWords.length && headline) gsap.set(headline, { opacity: 0, y: 35 });
+    if (description) gsap.set(description, { opacity: 0, y: 20 });
+    if (actions) gsap.set(actions, { opacity: 0, y: 15 });
+    if (imageFrame) gsap.set(imageFrame, { opacity: 0, scale: 1.03, y: 20 });
+  }
+
   function addWordReveal(tl, words, opts = {}, position) {
     if (!words.length) return;
     tl.fromTo(
@@ -169,7 +187,9 @@
     const description = scope.querySelector('.gsap-hero-description');
     const actions = scope.querySelector('.gsap-hero-actions');
     const imageFrame = scope.querySelector('.gsap-hero-image');
-    const headlineWords = splitWords(headline);
+    const headlineWords = headline && headline.dataset.revealSplit === '1'
+      ? $$('.reveal-word-inner', headline)
+      : splitWords(headline);
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -341,6 +361,12 @@
     }
     if (page === 'contact' && extra) {
       try { sessionStorage.setItem('manifold_selected_service', extra); } catch (e) { /* storage unavailable */ }
+    }
+    // The logo always performs a full redirect to the home page, even from home,
+    // so the page reloads fresh instead of merely scrolling to the top.
+    if (page === 'home') {
+      window.location.href = PAGE_FILES.home;
+      return;
     }
     const target = PAGE_FILES[page] || 'index.html';
     if (state.page === page) {
@@ -813,8 +839,7 @@
   let showreelMuted = false;
 
   function initPageBehaviors(page) {
-    // Hero entrance (runs immediately, behind the loading screen on first load — as in the React app)
-    animateHeroEntrance($('[data-hero-scope]'));
+    prepareHeroEntrance($('[data-hero-scope]'));
 
     // Scroll-triggered section reveals
     const wwd = $('#what-we-do');
@@ -1371,17 +1396,6 @@
     const minDuration = 2400;
     let isFinished = false;
 
-    // Cinematic intro plays once per browser session (as in the SPA original);
-    // subsequent page files boot straight into the content.
-    let seen = false;
-    try { seen = sessionStorage.getItem('manifold_loading_seen') === '1'; } catch (e) { /* storage unavailable */ }
-    if (seen) {
-      container.classList.add('hidden');
-      if (done) done();
-      return;
-    }
-    try { sessionStorage.setItem('manifold_loading_seen', '1'); } catch (e) { /* storage unavailable */ }
-
     const disciplines = [
       '01 // FILM PRODUCTION',
       '02 // CREATIVE DIRECTION',
@@ -1516,9 +1530,24 @@
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#work' && state.page === 'home') scrollToWork();
     });
-    runLoadingScreen(() => {
+    const finishIntro = () => {
+      animateHeroEntrance($('[data-hero-scope]'));
       if (window.location.hash === '#work' && state.page === 'home') scrollToWork();
-    });
+    };
+    if (state.page === 'home') {
+      let hasSeenLoader = false;
+      try { hasSeenLoader = sessionStorage.getItem('manifold_loading_seen') === '1'; } catch (e) { /* storage unavailable */ }
+      if (hasSeenLoader) {
+        $('#loadingScreen').classList.add('hidden');
+        finishIntro();
+      } else {
+        try { sessionStorage.setItem('manifold_loading_seen', '1'); } catch (e) { /* storage unavailable */ }
+        runLoadingScreen(finishIntro);
+      }
+    } else {
+      $('#loadingScreen').classList.add('hidden');
+      finishIntro();
+    }
   }
 
   if (document.readyState === 'loading') {

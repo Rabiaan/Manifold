@@ -1393,6 +1393,7 @@ main { flex: 1; }
   user-select: none;
   background: transparent;
 }
+html[data-page]:not([data-page="home"]) .loading-screen { display: none; }
 .loading-screen.hidden { display: none; }
 
 .loader-slats {
