@@ -7,6 +7,8 @@ import { CtaBanner } from '../components/CtaBanner';
 import { Play } from 'lucide-react';
 import { animateHeroEntrance, setupWhatWeDoAnimation, attachMagneticEffect } from '../utils/gsapAnimations';
 
+const heroVideo = new URL('../../HTML Version/assets/img/manifold main.mp4', import.meta.url).href;
+
 interface HomePageProps {
   onNavigate: (page: PageId, service?: string) => void;
   onOpenLightbox: (study: VisualStudy) => void;
@@ -46,8 +48,8 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="w-full bg-[#0D0D0D]">
       {/* Hero Section */}
       <section ref={heroRef} className="relative pt-12 pb-20 lg:pt-20 lg:pb-32 overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[72px]">
-          <div className="max-w-4xl space-y-6 mb-12 lg:mb-16">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-[72px] lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14">
+          <div className="min-w-0 space-y-6 mb-12 lg:mb-0">
             <p className="gsap-hero-kicker font-mono text-xs sm:text-sm text-[#1FCD6E] tracking-widest uppercase">
               {HOME_DATA.kicker}
             </p>
@@ -83,15 +85,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* Hero Master Image Frame */}
+          {/* Hero showreel video */}
           <div className="gsap-hero-image relative w-full rounded-xl overflow-hidden border border-[#2B2B2B] bg-[#141414] group shadow-2xl">
             <div className="relative aspect-[16/9] w-full">
-              <img
-                src={HOME_DATA.heroImage}
-                alt="Cinema Lens Master"
-                referrerPolicy="no-referrer"
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={HOME_DATA.heroImage}
+                aria-label={HOME_DATA.heroImageCaption}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
-              />
+              >
+                <source src={heroVideo} type="video/mp4" />
+              </video>
 
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                 <button

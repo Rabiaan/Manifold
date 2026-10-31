@@ -2,14 +2,22 @@
 
 /* ------------------------------------------------------------------
    Self-hosted brand fonts (src/assets/fonts)
-   - Syne        -> display / headlines
+   - Century Gothic -> display / headlines
    - DM Sans     -> body, nav & form controls
    - Space Mono  -> mono labels, kickers & captions
    ------------------------------------------------------------------ */
 @font-face {
-  font-family: 'Syne';
-  src: url('./assets/fonts/Syne-Variable.ttf') format('truetype');
-  font-weight: 400 800;
+  font-family: 'Century Gothic';
+  src: url('../HTML%20Version/assets/fonts/CenturyGothicPaneuropeanBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: url('../HTML%20Version/assets/fonts/CenturyGothicPaneuropeanExtraBold.ttf') format('truetype');
+  font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
@@ -39,7 +47,7 @@
 }
 
 @theme {
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Century Gothic', sans-serif;
   --font-sans: 'DM Sans', sans-serif;
   --font-mono: 'Space Mono', monospace;
 
@@ -60,9 +68,9 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Headlines: Syne 700-800 bold display typography */
+/* Headlines: Century Gothic 700-800 bold display typography */
 h1, h2, h3, h4, h5, h6, .font-headline, .font-display {
-  font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Century Gothic', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-weight: 800;
   letter-spacing: -0.03em;
   text-wrap: balance;
