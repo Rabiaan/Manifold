@@ -5,10 +5,12 @@ import gsap from 'gsap';
  */
 export const animateHeroEntrance = (scope: HTMLElement | null) => {
   if (!scope) return () => {};
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
 
   const ctx = gsap.context(() => {
     const kicker = scope.querySelector('.gsap-hero-kicker');
     const headline = scope.querySelector('.gsap-hero-headline');
+    const headlineWords = scope.querySelectorAll('.gsap-hero-word');
     const description = scope.querySelector('.gsap-hero-description');
     const actions = scope.querySelector('.gsap-hero-actions');
     const imageFrame = scope.querySelector('.gsap-hero-image');
@@ -23,7 +25,14 @@ export const animateHeroEntrance = (scope: HTMLElement | null) => {
       );
     }
 
-    if (headline) {
+    if (headlineWords.length > 0) {
+      tl.fromTo(
+        headlineWords,
+        { opacity: 0, yPercent: 110, rotateX: -25, transformOrigin: '50% 100%' },
+        { opacity: 1, yPercent: 0, rotateX: 0, duration: 0.8, stagger: 0.09 },
+        '-=0.5'
+      );
+    } else if (headline) {
       tl.fromTo(
         headline,
         { opacity: 0, y: 35 },

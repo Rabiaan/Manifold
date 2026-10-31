@@ -54,8 +54,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               {HOME_DATA.kicker}
             </p>
 
-            <h1 className="gsap-hero-headline font-headline font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tight leading-[0.95] text-white">
-              {HOME_DATA.heroHeadline}
+            <h1
+              aria-label={HOME_DATA.heroHeadline}
+              className="gsap-hero-headline font-headline font-extrabold text-4xl sm:text-6xl lg:text-8xl tracking-tight leading-[0.95] text-white"
+            >
+              {HOME_DATA.heroHeadline.split(' ').map((word, index) => (
+                <React.Fragment key={`${word}-${index}`}>
+                  <span className="inline-block overflow-hidden align-bottom">
+                    <span className="gsap-hero-word inline-block" aria-hidden="true">{word}</span>
+                  </span>
+                  {index < HOME_DATA.heroHeadline.split(' ').length - 1 ? ' ' : ''}
+                </React.Fragment>
+              ))}
             </h1>
 
             <p className="gsap-hero-description text-lg sm:text-2xl text-neutral-300 font-sans leading-relaxed max-w-2xl pt-2">
@@ -101,17 +111,15 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <source src={heroVideo} type="video/mp4" />
               </video>
 
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/40">
                 <button
                   data-cursor="play"
                   onClick={onOpenShowreel}
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#0D0D0D]/80 border-2 border-[#1FCD6E] backdrop-blur-md text-white flex flex-col items-center justify-center gap-1 shadow-2xl hover:scale-110 transition-transform cursor-pointer"
-                  aria-label="Play Manifold Showreel"
+                  className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-[#1FCD6E] bg-[#0D0D0D]/85 px-5 py-3 text-white shadow-2xl backdrop-blur-md transition duration-300 hover:scale-105 hover:bg-[#0D0D0D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1FCD6E]"
+                  aria-label="Watch Manifold showreel"
                 >
-                  <Play size={28} className="text-[#1FCD6E] ml-1" />
-                  <span className="font-mono text-[9px] capitalize tracking-wider text-neutral-300">
-                    Watch Reel
-                  </span>
+                  <Play size={18} className="ml-0.5 text-[#1FCD6E]" />
+                  <span className="font-mono text-xs uppercase tracking-widest">Watch Reel</span>
                 </button>
               </div>
 
