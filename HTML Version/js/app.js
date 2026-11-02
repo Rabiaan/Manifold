@@ -416,8 +416,33 @@
      ============================================================ */
 
   function heroSection(data, opts = {}) {
-    const { showPlay = false, sideBySide = false } = opts;
+    const { showPlay = false, sideBySide = false, background = false } = opts;
     const isVideo = typeof data.heroImage === 'string' && /\.(mp4|webm|ogg|mov)$/i.test(data.heroImage);
+
+    const content = `
+      <div class="hero-content">
+        <span class="kicker gsap-hero-kicker">${esc(data.kicker)}</span>
+        <h1 class="hero-headline gsap-hero-headline">${esc(data.heroHeadline)}</h1>
+        <p class="hero-description gsap-hero-description">${esc(data.heroDescription)}</p>
+        ${data.ctaButtonText ? `<div class="hero-actions gsap-hero-actions">
+          <button class="btn btn-primary magnetic" data-nav="contact"${data.heroService ? ` data-service="${esc(data.heroService)}"` : ''}>${esc(data.ctaButtonText)} <span class="arrow">→</span></button>
+        </div>` : ''}
+      </div>`;
+
+    if (background && isVideo) {
+      return `
+        <section class="hero hero-background" data-hero-scope>
+          <div class="hero-bg" aria-hidden="true">
+            <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="${data.heroPoster || ''}">
+              <source src="${data.heroImage}" type="video/mp4" />
+            </video>
+            <div class="hero-bg-scrim"></div>
+          </div>
+          <div class="container">${content}</div>
+          ${data.heroImageCaption ? `<div class="hero-bg-caption">${esc(data.heroImageCaption)}</div>` : ''}
+        </section>`;
+    }
+
     const media = data.heroImage
       ? `<div class="hero-media gsap-hero-image">
           <div class="media-frame group">
@@ -440,14 +465,7 @@
     return `
       <section class="hero${sideBySide ? ' hero-split' : ''}" data-hero-scope>
         <div class="container">
-          <div class="hero-content">
-            <span class="kicker gsap-hero-kicker">${esc(data.kicker)}</span>
-            <h1 class="hero-headline gsap-hero-headline">${esc(data.heroHeadline)}</h1>
-            <p class="hero-description gsap-hero-description">${esc(data.heroDescription)}</p>
-            ${data.ctaButtonText ? `<div class="hero-actions gsap-hero-actions">
-              <button class="btn btn-primary magnetic" data-nav="contact"${data.heroService ? ` data-service="${esc(data.heroService)}"` : ''}>${esc(data.ctaButtonText)} <span class="arrow">→</span></button>
-            </div>` : ''}
-          </div>
+          ${content}
           ${media}
         </div>
       </section>`;
@@ -563,7 +581,7 @@
   function homePage() {
     const home = { ...HOME_DATA, heroService: null };
     return (
-      heroSection(home, { sideBySide: true }) +
+      heroSection(home, { background: true }) +
       whatWeDoSection(home.whatWeDo) +
       visualDirectionSection(home.visualDirection, ALL_VISUAL_STUDIES.slice(0, 2), { withFilter: true, cols: 3 }) +
       processSection(home.processHeadline) +
@@ -839,6 +857,16 @@
   let showreelMuted = false;
 
   function initPageBehaviors(page) {
+    const heroBgVideo = $('.hero-bg-video');
+    if (heroBgVideo) {
+      if (reduceMotion()) {
+        heroBgVideo.pause();
+      } else {
+        const playPromise = heroBgVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
+      }
+    }
+
     prepareHeroEntrance($('[data-hero-scope]'));
 
     // Scroll-triggered section reveals
