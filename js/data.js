@@ -75,6 +75,28 @@ const HOME_DATA = {
   },
 };
 
+const WORK_DATA = {
+  kicker: 'SELECTED WORK',
+  heroHeadline: 'Work that speaks for itself.',
+  heroDescription:
+    'A selection of film, creative, AI and content projects. Explore the disciplines, the craft and the worlds we build for every brief.',
+  ctaButtonText: 'Start a project',
+  heroImageCaption: 'MANIFOLD / SELECTED WORK',
+  heroImage: ASSETS.cinemaLens,
+  visualDirection: {
+    kicker: 'THE WORK',
+    headline: 'Selected projects.',
+    note: 'Filter by discipline to explore the work across film, creative, AI and content.',
+  },
+  processHeadline: 'A considered process, from first thought to final frame.',
+  cta: {
+    kicker: 'LET US CREATE SOMETHING',
+    headline: 'Ready to make something move?',
+    description: 'Bring us an idea, a brief or a challenge. We will help shape what comes next.',
+    buttonText: 'Start a project',
+  },
+};
+
 const ALL_VISUAL_STUDIES = [
   {
     id: 'film-landscapes',

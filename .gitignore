@@ -12,3 +12,6 @@ src/assets/pilot-originals/
 src/assets/brand-imagery/*-640.webp
 src/assets/brand-imagery/*-960.webp
 src/assets/brand-imagery/*.png
+
+# Local backups (large archives)
+archive/

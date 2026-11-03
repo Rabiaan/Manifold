@@ -32,6 +32,7 @@
   const INITIAL_PAGE = document.documentElement.dataset.page || 'home';
   const PAGE_FILES = {
     home: 'index.html',
+    work: 'work.html',
     film: 'film.html',
     creative: 'creative.html',
     ai: 'ai.html',
@@ -351,14 +352,6 @@
 
   function navigate(page, extra) {
     closeDrawer();
-    if (page === 'work') {
-      if (state.page === 'home') {
-        scrollToWork();
-      } else {
-        window.location.href = 'index.html#work';
-      }
-      return;
-    }
     if (page === 'contact' && extra) {
       try { sessionStorage.setItem('manifold_selected_service', extra); } catch (e) { /* storage unavailable */ }
     }
@@ -387,6 +380,7 @@
     let html = '';
     switch (page) {
       case 'home': html = homePage(); break;
+      case 'work': html = workPage(); break;
       case 'film': html = servicePage(FILM_DATA); break;
       case 'creative': html = servicePage(CREATIVE_DATA); break;
       case 'ai': html = servicePage(AI_DATA); break;
@@ -403,8 +397,7 @@
 
   function updateNavActive(page) {
     $$('.nav-link').forEach((el) => {
-      const t = el.dataset.nav;
-      el.classList.toggle('active', t === page || (t === 'work' && page === 'home' && window.location.hash === '#work'));
+      el.classList.toggle('active', el.dataset.nav === page);
     });
     const trigger = $('#servicesTrigger');
     if (trigger) trigger.classList.toggle('active', SERVICE_PAGES[page] !== undefined);
@@ -510,10 +503,10 @@
   }
 
   function visualDirectionSection(vd, cards, opts = {}) {
-    const { withFilter = false, cols = 2 } = opts;
+    const { withFilter = false, cols = 2, filters = ['Featured', 'All', 'Film', 'Creative', 'AI', 'Content'] } = opts;
     const filterBar = withFilter
-      ? `<div class="filter-bar" role="tablist" aria-label="Filter studies">
-          ${['Featured', 'All', 'Film', 'Creative', 'AI', 'Content']
+      ? `<div class="filter-bar" role="tablist" aria-label="Filter projects">
+          ${filters
             .map(
               (f) =>
                 `<button class="filter-pill ${f === state.workFilter ? 'active' : ''}" data-filter="${f}" role="tab">${f}</button>`
@@ -589,6 +582,21 @@
     );
   }
 
+  function workPage() {
+    state.workFilter = 'All';
+    const work = { ...WORK_DATA, heroService: null };
+    return (
+      heroSection(work, { sideBySide: true }) +
+      visualDirectionSection(work.visualDirection, ALL_VISUAL_STUDIES, {
+        withFilter: true,
+        cols: 3,
+        filters: ['All', 'Film', 'Creative', 'AI', 'Content'],
+      }) +
+      processSection(work.processHeadline) +
+      ctaSection(work.cta)
+    );
+  }
+
   function servicePage(data) {
     const d = { ...data, heroService: data.whatWeDo.items[0] ? data.whatWeDo.items[0].serviceId : null };
     return (
@@ -631,7 +639,7 @@
                 (f, i) => `
               <button class="aspect-card ${i === 0 ? 'selected' : ''}" data-aspect="${f.ratio}">
                 <div class="aspect-preview">
-                  <div class="aspect-frame" style="aspect-ratio:${f.ratio.replace(':', '/')}; height:100%; width:auto; max-width:100%;">
+                  <div class="aspect-frame" style="--ar-w:${f.ratio.split(':')[0]}; --ar-h:${f.ratio.split(':')[1]};">
                     <img src="${ASSETS.cinemaLens}" alt="" loading="lazy" />
                     <div class="aspect-safe"></div>
                     <span class="aspect-ratio-badge">${f.ratio}</span>
